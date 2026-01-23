@@ -1,3 +1,353 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');
+
+:root {
+  --color-cream: #F5F0E8;
+  --color-charcoal: #1A1A1A;
+  --color-rust: #8B4513;
+  --color-terracotta: #C4683C;
+  --color-sage: #7D8471;
+  --color-stone: #A69F94;
+  --color-warm-white: #FDFBF7;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body: 'Space Grotesk', sans-serif;
+  --font-accent: 'Cormorant Garamond', serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-circ: cubic-bezier(0.85, 0, 0.15, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: clamp(14px, 1.2vw, 18px);
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-terracotta);
+  color: var(--color-warm-white);
+}
+
+/* Custom cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-rust);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-rust);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.5;
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Text split animations */
+.char {
+  display: inline-block;
+  transform-origin: bottom center;
+}
+
+.word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.line {
+  overflow: hidden;
+}
+
+/* Fluid typography */
+.text-fluid-xs {
+  font-size: clamp(0.75rem, 0.5vw + 0.5rem, 0.875rem);
+}
+
+.text-fluid-sm {
+  font-size: clamp(0.875rem, 0.8vw + 0.5rem, 1rem);
+}
+
+.text-fluid-base {
+  font-size: clamp(1rem, 1vw + 0.5rem, 1.25rem);
+}
+
+.text-fluid-lg {
+  font-size: clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem);
+}
+
+.text-fluid-xl {
+  font-size: clamp(1.5rem, 2vw + 0.5rem, 2.5rem);
+}
+
+.text-fluid-2xl {
+  font-size: clamp(2rem, 3vw + 0.5rem, 4rem);
+}
+
+.text-fluid-3xl {
+  font-size: clamp(2.5rem, 5vw + 0.5rem, 6rem);
+}
+
+.text-fluid-4xl {
+  font-size: clamp(3rem, 7vw + 0.5rem, 10rem);
+}
+
+.text-fluid-hero {
+  font-size: clamp(3.5rem, 12vw, 15rem);
+}
+
+/* Broken grid utilities */
+.offset-left-sm { margin-left: -2vw; }
+.offset-left-md { margin-left: -5vw; }
+.offset-left-lg { margin-left: -10vw; }
+.offset-right-sm { margin-right: -2vw; }
+.offset-right-md { margin-right: -5vw; }
+.offset-right-lg { margin-right: -10vw; }
+.offset-top-sm { margin-top: -3vh; }
+.offset-top-md { margin-top: -8vh; }
+.offset-top-lg { margin-top: -15vh; }
+
+/* Asymmetric spacing */
+.space-irregular > *:nth-child(odd) {
+  margin-bottom: clamp(2rem, 8vh, 6rem);
+}
+
+.space-irregular > *:nth-child(even) {
+  margin-bottom: clamp(4rem, 12vh, 10rem);
+}
+
+/* Image treatments */
+.img-reveal {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.2s var(--ease-out-expo);
+}
+
+.img-reveal.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+.img-parallax {
+  will-change: transform;
+}
+
+/* Grain overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 9999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Marquee */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+}
+
+.marquee__content {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  min-width: 100%;
+  animation: scroll 30s linear infinite;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Horizontal line animation */
+.line-animate {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* Border radius variations */
+.rounded-organic-1 { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+.rounded-organic-2 { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+.rounded-organic-3 { border-radius: 40% 60% 60% 40% / 70% 30% 30% 70%; }
+
+/* Z-index layers */
+.z-behind { z-index: -1; }
+.z-base { z-index: 0; }
+.z-content { z-index: 10; }
+.z-overlay { z-index: 20; }
+.z-header { z-index: 50; }
+.z-modal { z-index: 100; }
+
+/* Blend modes */
+.blend-multiply { mix-blend-mode: multiply; }
+.blend-screen { mix-blend-mode: screen; }
+.blend-overlay { mix-blend-mode: overlay; }
+.blend-difference { mix-blend-mode: difference; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-stone);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-rust);
+}
+
+/* Mobile menu */
+.mobile-nav-open {
+  overflow: hidden;
+}
+
+/* Link hover effect */
+.link-hover {
+  position: relative;
+  display: inline-block;
+}
+
+.link-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.link-hover:hover::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+/* Button styles */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-charcoal);
+  color: var(--color-warm-white);
+  padding: 1.25rem 2.5rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-terracotta);
+  transform: translateY(100%);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+
+.btn-primary:hover::before {
+  transform: translateY(0);
+}
+
+.btn-primary span {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-outline {
+  position: relative;
+  background: transparent;
+  color: var(--color-charcoal);
+  padding: 1.25rem 2.5rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  border: 1px solid var(--color-charcoal);
+  cursor: pointer;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-charcoal);
+  color: var(--color-warm-white);
+}
