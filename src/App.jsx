@@ -12,11 +12,16 @@ import cameraIngresso from './assets/foto/camera-ingresso.webp'
 import cameraLettiSingoli from './assets/foto/camera-letti-singoli-gialla.webp'
 import bagnoPrivato from './assets/foto/bagno-privato.webp'
 
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import CookiePolicy from './pages/CookiePolicy'
+import CookieBanner from './components/CookieBanner'
+
 gsap.registerPlugin(ScrollTrigger)
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState('home')
   const containerRef = useRef(null)
   const heroRef = useRef(null)
   const heroTitleRef = useRef(null)
@@ -267,6 +272,42 @@ function App() {
     setMenuOpen(false)
   }
 
+  const navigateToPage = (page) => {
+    setCurrentPage(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Render policy pages
+  if (currentPage === 'privacy') {
+    return (
+      <>
+        <PrivacyPolicy
+          onNavigateHome={() => navigateToPage('home')}
+          onNavigateCookie={() => navigateToPage('cookie')}
+        />
+        <CookieBanner
+          onNavigatePrivacy={() => navigateToPage('privacy')}
+          onNavigateCookie={() => navigateToPage('cookie')}
+        />
+      </>
+    )
+  }
+
+  if (currentPage === 'cookie') {
+    return (
+      <>
+        <CookiePolicy
+          onNavigateHome={() => navigateToPage('home')}
+          onNavigatePrivacy={() => navigateToPage('privacy')}
+        />
+        <CookieBanner
+          onNavigatePrivacy={() => navigateToPage('privacy')}
+          onNavigateCookie={() => navigateToPage('cookie')}
+        />
+      </>
+    )
+  }
+
   return (
     <div ref={containerRef} className="grain">
       {/* Loading Screen */}
@@ -363,7 +404,11 @@ function App() {
         <div className="absolute inset-0">
           <img
             src={cameraTettoLegno}
-            alt="B&B La Fucina"
+            alt="B&B La Fucina - Camera con soffitto in legno nelle Alpi"
+            title="Camera con tetto in legno - B&B La Fucina"
+            loading="eager"
+            width={1920}
+            height={1280}
             className="hero-img w-full h-[120%] object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/70" />
@@ -474,7 +519,11 @@ function App() {
               <div className="about-img overflow-hidden rounded-lg">
                 <img
                   src={cameraDoppiaArancione}
-                  alt="Camera"
+                  alt="Camera doppia accogliente del B&B La Fucina"
+                  title="Camera doppia con arredamento caldo - B&B La Fucina"
+                  loading="lazy"
+                  width={800}
+                  height={600}
                   className="w-full h-[40vh] md:h-[60vh] object-cover"
                 />
               </div>
@@ -483,7 +532,11 @@ function App() {
               <div className="about-img overflow-hidden rounded-lg">
                 <img
                   src={bagnoPrivato}
-                  alt="Bagno"
+                  alt="Bagno privato moderno del B&B La Fucina"
+                  title="Bagno privato con finiture di qualità"
+                  loading="lazy"
+                  width={600}
+                  height={450}
                   className="w-full h-[30vh] md:h-[45vh] object-cover"
                 />
               </div>
@@ -511,16 +564,20 @@ function App() {
 
           <div className="rooms-grid grid grid-cols-12 gap-4 md:gap-6">
             {[
-              { img: cameraTettoLegno, title: 'Camera Legno', span: 'col-span-12 md:col-span-7' },
-              { img: cameraLettiSingoli, title: 'Camera Twin', span: 'col-span-6 md:col-span-5 md:-mt-24' },
-              { img: cameraDoppiaVista, title: 'Camera Vista', span: 'col-span-6 md:col-span-4 md:col-start-2 md:mt-12' },
-              { img: cameraIngresso, title: 'Camera Classic', span: 'col-span-12 md:col-span-5 md:-mt-16' },
+              { img: cameraTettoLegno, title: 'Camera Legno', alt: 'Camera con soffitto in legno - B&B La Fucina Temù', span: 'col-span-12 md:col-span-7' },
+              { img: cameraLettiSingoli, title: 'Camera Twin', alt: 'Camera con letti singoli - B&B La Fucina Temù', span: 'col-span-6 md:col-span-5 md:-mt-24' },
+              { img: cameraDoppiaVista, title: 'Camera Vista', alt: 'Camera doppia con vista montagna - B&B La Fucina', span: 'col-span-6 md:col-span-4 md:col-start-2 md:mt-12' },
+              { img: cameraIngresso, title: 'Camera Classic', alt: 'Camera classica accogliente - B&B La Fucina', span: 'col-span-12 md:col-span-5 md:-mt-16' },
             ].map((room, i) => (
               <div key={i} className={`room-card ${room.span} group`}>
                 <div className="relative overflow-hidden rounded-lg">
                   <img
                     src={room.img}
-                    alt={room.title}
+                    alt={room.alt}
+                    title={room.title}
+                    loading="lazy"
+                    width={800}
+                    height={600}
                     className="w-full h-[35vh] md:h-[50vh] object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -1001,12 +1058,34 @@ function App() {
             <p className="font-body text-fluid-xs" style={{ color: 'var(--color-stone)', opacity: 0.5 }}>
               © 2026 B&B La Fucina — La Fucina di Sandrini Massimo
             </p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              <button
+                onClick={() => navigateToPage('privacy')}
+                className="font-body text-fluid-xs transition-colors duration-300 hover:opacity-100"
+                style={{ color: 'var(--color-stone)', opacity: 0.5 }}
+              >
+                Privacy Policy
+              </button>
+              <button
+                onClick={() => navigateToPage('cookie')}
+                className="font-body text-fluid-xs transition-colors duration-300 hover:opacity-100"
+                style={{ color: 'var(--color-stone)', opacity: 0.5 }}
+              >
+                Cookie Policy
+              </button>
+            </div>
             <p className="font-body text-fluid-xs mt-4 md:mt-0" style={{ color: 'var(--color-stone)', opacity: 0.5 }}>
               CIR: IT017184B45AT5NY4H
             </p>
           </div>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      <CookieBanner
+        onNavigatePrivacy={() => navigateToPage('privacy')}
+        onNavigateCookie={() => navigateToPage('cookie')}
+      />
     </div>
   )
 }

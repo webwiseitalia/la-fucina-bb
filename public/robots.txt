@@ -1,0 +1,22 @@
+# Robots.txt for B&B La Fucina
+# https://lafucina-bb.it
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://lafucina-bb.it/sitemap.xml
+
+# Disallow admin/private areas (if any)
+Disallow: /api/
+Disallow: /admin/
+
+# Allow all search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
