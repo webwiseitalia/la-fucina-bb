@@ -351,14 +351,46 @@ function App() {
             La Fucina
           </a>
 
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex flex-col gap-1.5 p-2 group"
-          >
-            <span className={`block w-8 h-[2px] bg-white transition-all duration-500 ${menuOpen ? 'rotate-45 translate-y-[5px]' : ''}`} />
-            <span className={`block w-6 h-[2px] bg-white transition-all duration-500 ml-auto ${menuOpen ? 'opacity-0 translate-x-4' : ''}`} />
-            <span className={`block w-8 h-[2px] bg-white transition-all duration-500 ${menuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`} />
-          </button>
+          <div className="flex items-center gap-4 md:gap-6">
+            <a
+              href="https://www.airbnb.it/rooms/52588201"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-2 font-body text-sm tracking-wider uppercase text-white hover:opacity-70 transition-opacity duration-300"
+            >
+              <span className="text-lg">⌂</span>
+              <span>Airbnb</span>
+            </a>
+
+            <a
+              href="https://www.tripadvisor.it/Hotel_Review-g1813852-d12483351-Reviews-Bed_and_Breakfast_La_Fucina-Temu_Province_of_Brescia_Lombardy.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:flex items-center gap-2 font-body text-sm tracking-wider uppercase text-white hover:opacity-70 transition-opacity duration-300"
+            >
+              <span className="text-lg">★</span>
+              <span>TripAdvisor</span>
+            </a>
+
+            <a
+              href="https://it.trip.com/hotels/temu-hotel-detail-10175650/la-fucina-bb/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex items-center gap-2 font-body text-sm tracking-wider uppercase text-white hover:opacity-70 transition-opacity duration-300"
+            >
+              <span className="text-lg">✈</span>
+              <span>Trip.com</span>
+            </a>
+
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex flex-col gap-1.5 p-2 group"
+            >
+              <span className={`block w-8 h-[2px] bg-white transition-all duration-500 ${menuOpen ? 'rotate-45 translate-y-[5px]' : ''}`} />
+              <span className={`block w-6 h-[2px] bg-white transition-all duration-500 ml-auto ${menuOpen ? 'opacity-0 translate-x-4' : ''}`} />
+              <span className={`block w-8 h-[2px] bg-white transition-all duration-500 ${menuOpen ? '-rotate-45 -translate-y-[5px]' : ''}`} />
+            </button>
+          </div>
         </div>
       </header>
 
@@ -394,6 +426,49 @@ function App() {
                   {item.label}
                 </motion.button>
               ))}
+
+              {/* Booking links in menu */}
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <motion.a
+                  href="https://www.airbnb.it/rooms/52588201"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + 7 * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full transition-all duration-300"
+                  style={{ backgroundColor: 'var(--color-terracotta)' }}
+                >
+                  <span className="text-lg text-white">⌂</span>
+                  <span className="font-body text-sm tracking-wider uppercase text-white">Airbnb</span>
+                </motion.a>
+
+                <motion.a
+                  href="https://www.tripadvisor.it/Hotel_Review-g1813852-d12483351-Reviews-Bed_and_Breakfast_La_Fucina-Temu_Province_of_Brescia_Lombardy.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + 8 * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full transition-all duration-300 border border-white/30 hover:bg-white/10"
+                >
+                  <span className="text-lg text-white">★</span>
+                  <span className="font-body text-sm tracking-wider uppercase text-white">TripAdvisor</span>
+                </motion.a>
+
+                <motion.a
+                  href="https://it.trip.com/hotels/temu-hotel-detail-10175650/la-fucina-bb/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ y: 50, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 + 9 * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-full transition-all duration-300 border border-white/30 hover:bg-white/10"
+                >
+                  <span className="text-lg text-white">✈</span>
+                  <span className="font-body text-sm tracking-wider uppercase text-white">Trip.com</span>
+                </motion.a>
+              </div>
             </div>
           </motion.nav>
         )}
